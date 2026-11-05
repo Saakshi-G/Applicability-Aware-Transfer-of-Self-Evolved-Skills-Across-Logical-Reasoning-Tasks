@@ -1,0 +1,8 @@
+datasets # Core ML / LLM
+transformers # Core ML / LLM
+sentence-transformers # Core ML / LLM
+torch # Core ML / LLM
+pandas # Data processing
+numpy # Data processing
+scikit-learn # Evaluation / similarity
+tqdm # Utilities
