@@ -1,6 +1,6 @@
 You are solving a multiple-choice logical reasoning problem.
 Carefully reason through the problem step by step.
-Problem:
+{skills_block}Problem:
 {question}
 Return your final answer using exactly this format:
 FINAL ANSWER: (A)

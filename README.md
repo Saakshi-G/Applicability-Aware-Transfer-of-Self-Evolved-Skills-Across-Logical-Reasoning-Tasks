@@ -467,6 +467,34 @@ The project uses:
 
 ---
 
+## Setup
+
+```bash
+pip install -r requirements.txt
+
+# BBH is not stored in this repo (external/ is gitignored). Clone it once:
+git clone https://github.com/suzgunmirac/BIG-Bench-Hard.git external/Big-Bench-Hard
+# or point to an existing copy (e.g. on SOL):  export BBH_DIR=/path/to/Big-Bench-Hard/bbh
+
+# Create the fixed, seeded splits (already committed in data/splits/; only rerun on purpose):
+python -m src.dataset
+
+# Check the answer parser and splits:
+python -m pytest tests/
+```
+
+**Splits.** `data/splits/*.json` hold the example IDs for every split (pooled over the 3/5/7-object
+configs, stratified by config, seed 0). All experimental conditions must evaluate on exactly these
+IDs, because transfer gain and negative transfer compare the same example across conditions.
+
+**Prompts.** Every condition builds its prompt with `src.baseline.build_prompt(question, skills)`.
+No-skills is `skills=None`; the other conditions differ only in which skills are passed in.
+
+**Answer parsing.** `extract_answer` returns `None` when there is no `FINAL ANSWER` line instead of
+guessing. Report the `None` rate (parse failures) alongside accuracy.
+
+---
+
 ## Team Workflow
 
 The project is divided into five main technical modules:
