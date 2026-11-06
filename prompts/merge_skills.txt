@@ -1,0 +1,38 @@
+You are a skill-library curator. Several analysts independently proposed edits to a library of reusable reasoning skills. Combine their proposals into one final list of at most {L} operations.
+
+Rules:
+1. Deduplicate: if proposals or library skills overlap, keep the best-worded, most general version. Use the POSSIBLE DUPLICATES list as hints; it is a rough text-overlap measure and may be wrong.
+2. Prevalent-pattern bias: proposals made by several analysts, or with a high support_count, get high priority. A proposal made by only one analyst may be dropped if it is specific to a few examples.
+3. Resolve conflicts: if proposals contradict each other, keep the better supported one or write one skill that reconciles them.
+4. Independence: no two final operations may target the same skill id.
+5. Size: the final library may hold at most {CAP} skills. An ADD at the cap must be paired with a MERGE or REMOVE.
+6. Generality: never keep a skill that names answer options such as (A), names objects from examples, or encodes a one-example exception. Every skill must keep its "applies_when" and "does_not_apply_when" text.
+7. Order the final operations from highest to lowest priority.
+8. Length limits: "name" up to 8 words; "description" up to 80 words; "applies_when" and "does_not_apply_when" up to 30 words each.
+
+Operations use the same format as the proposals: ADD (empty target_ids), EDIT (one id), MERGE (2-3 ids), REMOVE (1-3 ids, no "skill").
+
+=== CURRENT SKILL LIBRARY ===
+{LIBRARY}
+
+=== PROPOSED OPS ===
+{PROPOSALS}
+
+=== POSSIBLE DUPLICATES ===
+{DUPLICATES}
+
+=== END OF DATA ===
+
+Respond ONLY with one valid JSON object, no markdown fences, no other text:
+{
+  "reasoning": "<brief explanation of what you kept, merged, and dropped>",
+  "ops": [
+    {
+      "op": "ADD|EDIT|MERGE|REMOVE",
+      "target_ids": [],
+      "skill": {"name": "...", "description": "...", "applies_when": "...", "does_not_apply_when": "..."},
+      "support_count": <integer>,
+      "reason": "<one line>"
+    }
+  ]
+}
