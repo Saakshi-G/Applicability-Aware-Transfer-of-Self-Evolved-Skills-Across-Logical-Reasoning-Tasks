@@ -221,3 +221,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Dry-run outputs of the skill evolution script (fake model)
+skills/_dry_run/

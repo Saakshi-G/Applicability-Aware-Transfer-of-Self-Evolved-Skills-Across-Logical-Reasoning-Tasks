@@ -495,6 +495,56 @@ guessing. Report the `None` rate (parse failures) alongside accuracy.
 
 ---
 
+## Skill Evolution (Logical Deduction -> skill library)
+
+`src/skill_evolution.py` turns Logical Deduction experience into `skills/skill_library.json`.
+The LLM stays frozen; skills are learned by a validation-gated loop. Each round:
+
+1. **Solve** a batch of the 150 evolution examples with the current library.
+2. **Reflect**: failures (8 per call) plus a few successes for contrast -> a few proposed edits
+   (`ADD`, `EDIT`, `MERGE`, `REMOVE`). Parse failures (no `FINAL ANSWER`) are not reflected on.
+3. **Curate** (only when several proposals or duplicates need reconciling).
+4. **Filter**: edits that mention answer options, objects from the examples, or copy question text
+   (`src/leakage.py`), exceed the word limits, or exceed the size caps (20 skills / 1,200 words) are refused.
+5. **Gate** on the fixed 50-example validation set: accept only if `repaired - 2 * broken > 0`
+   (paired, per question). Otherwise keep the old library and remember the rejected edit.
+
+Defaults: 2 epochs x 5 rounds (batches of 30), edit budget 3 then 2 per round, stop after 5 rounds
+in a row without an accepted edit. Every round is logged to `skills/evolution_log.jsonl`.
+
+**Skill format** (a JSON list). Only `name` and `description` are shown to the solver, in the same
+format for all five conditions. `applies_when` / `does_not_apply_when` are for the applicability check.
+
+```json
+{
+  "skill_id": "skill_001", "source_task": "logical_deduction",
+  "name": "Constraint chaining",
+  "description": "Write each ordering clue as a short relation, chain ...",
+  "applies_when": "...", "does_not_apply_when": "...",
+  "support_count": 3, "created_round": 1, "last_edited_round": 4
+}
+```
+
+**Run it**
+
+```bash
+# No model needed: runs the whole loop with a fake model (writes to skills/_dry_run/, not committed)
+python experiments/run_skill_evolution.py --dry-run --eval-test
+
+# Real run: first add src/llm.py with  get_llm() -> function(prompt: str) -> str  (greedy decoding)
+python experiments/run_skill_evolution.py --eval-test
+```
+
+Before evolving, the script re-solves the validation set several times with no skills, because a
+50-question set is noisy (one question = 2 points) and the baseline failure count limits how much
+there is to learn from. `--eval-test` then checks the evolved library in-domain on the Logical
+Deduction test split.
+
+Methods follow SkillOpt, Rethinking Self-Evolving Agent Skills, and Piao et al.; see
+`THIRD_PARTY_NOTICES.md`.
+
+---
+
 ## Team Workflow
 
 The project is divided into five main technical modules:
