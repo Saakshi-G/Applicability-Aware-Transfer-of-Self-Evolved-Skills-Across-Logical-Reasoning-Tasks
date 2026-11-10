@@ -6,3 +6,8 @@ pandas # Data processing
 numpy # Data processing
 scikit-learn # Evaluation / similarity
 tqdm # Utilities
+
+accelerate
+
+google-genai
+python-dotenv
