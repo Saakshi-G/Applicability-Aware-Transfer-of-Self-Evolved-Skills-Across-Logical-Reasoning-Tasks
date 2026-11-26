@@ -289,3 +289,99 @@ if __name__ == "__main__":
         if name.startswith("test_"):
             fn()
             print("PASS", name)
+
+
+def test_repair_ops_fixes_invented_target_ids():
+    from src.skill_evolution import repair_ops
+    from src.skill_library import SkillLibrary
+
+    sk = {"name": "A", "description": "d", "applies_when": "x", "does_not_apply_when": "y"}
+    lib = SkillLibrary()
+    lib.apply_ops([{"op": "ADD", "target_ids": [], "skill": sk}], 1, 3)
+    lib, _, _ = lib.apply_ops([{"op": "ADD", "target_ids": [], "skill": sk}], 1, 3)
+    real = lib.ids()[0]
+
+    rec = {}
+    out = repair_ops(
+        [
+            {"op": "MERGE", "target_ids": ["PROPOSAL_1", "PROPOSAL_2"], "skill": sk},
+            {"op": "MERGE", "target_ids": [real, "skill_099"], "skill": sk},
+            {"op": "REMOVE", "target_ids": ["nope"]},
+            {"op": "ADD", "target_ids": [], "skill": sk},
+        ],
+        lib, rec,
+    )
+
+    assert out[0]["op"] == "ADD" and out[0]["target_ids"] == []
+    assert out[1]["op"] == "EDIT" and out[1]["target_ids"] == [real]
+    assert out[2]["op"] == "REMOVE" and out[2]["target_ids"] == ["nope"]   # left for the library to refuse
+    assert out[3]["op"] == "ADD"
+    assert len(rec["op_repairs"]) == 2
+
+
+def test_repair_ops_turns_empty_target_merge_into_add():
+    from src.skill_evolution import repair_ops
+    from src.skill_library import SkillLibrary
+
+    sk = {"name": "A", "description": "d", "applies_when": "x", "does_not_apply_when": "y"}
+    out = repair_ops(
+        [{"op": "MERGE", "target_ids": [], "skill": sk},
+         {"op": "EDIT", "target_ids": [], "skill": sk},
+         {"op": "REMOVE", "target_ids": []}],
+        SkillLibrary(), {},
+    )
+    assert [o["op"] for o in out] == ["ADD", "ADD", "REMOVE"]
+
+
+# ------------------------------------------------- separate skill-writer model
+
+
+def test_reflector_llm_writes_skills_and_solver_judges_them():
+    """The writer model only sees reflector/curator prompts; the solver only
+    sees solve prompts; the gate still uses the solver's answers."""
+    solver, writer = FakeLLM(ALL), FakeLLM(ALL)
+    solver_prompts, writer_prompts = [], []
+
+    class Spy:
+        def __init__(self, inner, seen):
+            self.inner, self.seen = inner, seen
+
+        def __call__(self, prompt):
+            self.seen.append(prompt)
+            return self.inner(prompt)
+
+    out = evolve_skills(Spy(solver, solver_prompts), EVOLUTION, VALIDATION,
+                        small_config(), verbose=False,
+                        reflector_llm=Spy(writer, writer_prompts))
+
+    assert out["library"].ids() == ["skill_001"]          # skill came from the writer
+    assert out["reflector_calls"] == len(writer_prompts) > 0
+    assert out["llm_calls"] == len(solver_prompts) > 0
+    assert not any("FAILURES" in p or "PROPOSALS" in p for p in solver_prompts)
+
+
+def test_without_reflector_llm_reports_zero_writer_calls():
+    out = evolve_skills(FakeLLM(ALL), EVOLUTION, VALIDATION, small_config(), verbose=False)
+    assert out["reflector_calls"] == 0
+
+
+# ---------------------------------------------- bigger validation set option
+
+
+def test_split_extra_validation_moves_last_evolution_questions():
+    import experiments.run_skill_evolution as runner
+    ev, va = runner.split_extra_validation(EVOLUTION, VALIDATION, 10)
+    assert len(ev) == 30 and len(va) == 30
+    assert [e["id"] for e in va[20:]] == [e["id"] for e in EVOLUTION[-10:]]
+    assert not {e["id"] for e in ev} & {e["id"] for e in va}          # no overlap
+    assert runner.split_extra_validation(EVOLUTION, VALIDATION, 0) == (EVOLUTION, VALIDATION)
+
+
+def test_v3_prompts_have_every_placeholder_the_code_fills():
+    from src.skill_evolution import REFLECT_PROMPT_PATH, MERGE_PROMPT_PATH
+    reflect = (PROJECT_ROOT / "prompts" / "evolve_skill_v3.txt").read_text()
+    merge = (PROJECT_ROOT / "prompts" / "merge_skills_v3.txt").read_text()
+    for key in ("TASK_DESCRIPTION", "L", "CAP", "LIBRARY", "REJECTED", "FAILURES", "SUCCESSES"):
+        assert "{" + key + "}" in reflect, key
+    for key in ("L", "CAP", "LIBRARY", "PROPOSALS", "DUPLICATES"):
+        assert "{" + key + "}" in merge, key
