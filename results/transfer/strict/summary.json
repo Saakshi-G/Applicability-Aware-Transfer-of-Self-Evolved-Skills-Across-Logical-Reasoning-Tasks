@@ -1,0 +1,58 @@
+{
+  "library": "skills/library_strict_qwen3b.json",
+  "n_skills": 2,
+  "target": "tracking_shuffled_objects/test",
+  "k": 3,
+  "seed": 0,
+  "model": "hf:Qwen/Qwen2.5-3B-Instruct",
+  "conditions": {
+    "no_skills": {
+      "n": 150,
+      "accuracy": 0.4,
+      "transfer_gain": 0.0,
+      "repaired": 0,
+      "broken": 0,
+      "p_value": 1.0,
+      "parse_failures": 0,
+      "mean_skills_shown": 0.0,
+      "cost": {
+        "calls": 150,
+        "prompt_chars": 147005,
+        "seconds": 99.5,
+        "prompts_reused": 0
+      }
+    },
+    "all_skills": {
+      "n": 150,
+      "accuracy": 0.3733,
+      "transfer_gain": -0.0267,
+      "repaired": 18,
+      "broken": 22,
+      "p_value": 0.6358,
+      "parse_failures": 0,
+      "mean_skills_shown": 2.0,
+      "cost": {
+        "calls": 150,
+        "prompt_chars": 211655,
+        "seconds": 162.4,
+        "prompts_reused": 0
+      }
+    },
+    "applicability": {
+      "n": 150,
+      "accuracy": 0.3667,
+      "transfer_gain": -0.0333,
+      "repaired": 2,
+      "broken": 7,
+      "p_value": 0.1797,
+      "parse_failures": 0,
+      "mean_skills_shown": 0.37,
+      "cost": {
+        "calls": 323,
+        "prompt_chars": 464493,
+        "seconds": 85.4,
+        "prompts_reused": 127
+      }
+    }
+  }
+}

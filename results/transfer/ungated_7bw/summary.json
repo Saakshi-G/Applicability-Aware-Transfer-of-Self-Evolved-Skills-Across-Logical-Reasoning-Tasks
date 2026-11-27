@@ -1,0 +1,91 @@
+{
+  "library": "skills/library_ungated_7bwriter.json",
+  "n_skills": 19,
+  "target": "tracking_shuffled_objects/test",
+  "k": 3,
+  "seed": 0,
+  "model": "hf:Qwen/Qwen2.5-3B-Instruct",
+  "retriever": "tfidf",
+  "conditions": {
+    "no_skills": {
+      "n": 150,
+      "accuracy": 0.4,
+      "transfer_gain": 0.0,
+      "repaired": 0,
+      "broken": 0,
+      "p_value": 1.0,
+      "parse_failures": 0,
+      "mean_skills_shown": 0.0,
+      "cost": {
+        "calls": 150,
+        "prompt_chars": 147005,
+        "seconds": 101.1,
+        "prompts_reused": 0
+      }
+    },
+    "all_skills": {
+      "n": 150,
+      "accuracy": 0.3667,
+      "transfer_gain": -0.0333,
+      "repaired": 29,
+      "broken": 34,
+      "p_value": 0.6147,
+      "parse_failures": 0,
+      "mean_skills_shown": 19.0,
+      "cost": {
+        "calls": 150,
+        "prompt_chars": 570605,
+        "seconds": 133.7,
+        "prompts_reused": 0
+      }
+    },
+    "random_skills": {
+      "n": 150,
+      "accuracy": 0.3867,
+      "transfer_gain": -0.0133,
+      "repaired": 25,
+      "broken": 27,
+      "p_value": 0.8899,
+      "parse_failures": 0,
+      "mean_skills_shown": 3.0,
+      "cost": {
+        "calls": 150,
+        "prompt_chars": 217494,
+        "seconds": 137.2,
+        "prompts_reused": 0
+      }
+    },
+    "similarity": {
+      "n": 150,
+      "accuracy": 0.44,
+      "transfer_gain": 0.04,
+      "repaired": 27,
+      "broken": 21,
+      "p_value": 0.4709,
+      "parse_failures": 0,
+      "mean_skills_shown": 3.0,
+      "cost": {
+        "calls": 150,
+        "prompt_chars": 224746,
+        "seconds": 122.3,
+        "prompts_reused": 0
+      }
+    },
+    "applicability": {
+      "n": 150,
+      "accuracy": 0.44,
+      "transfer_gain": 0.04,
+      "repaired": 22,
+      "broken": 16,
+      "p_value": 0.4177,
+      "parse_failures": 0,
+      "mean_skills_shown": 1.57,
+      "cost": {
+        "calls": 2952,
+        "prompt_chars": 4078844,
+        "seconds": 531.4,
+        "prompts_reused": 48
+      }
+    }
+  }
+}
