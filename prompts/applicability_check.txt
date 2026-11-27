@@ -1,0 +1,14 @@
+You decide whether one reasoning skill should be shown to a solver for one problem. Do not solve the problem.
+
+Skill name: {NAME}
+What it does: {DESCRIPTION}
+Use it when: {APPLIES_WHEN}
+Do not use it when: {NOT_APPLIES_WHEN}
+
+Problem:
+{QUESTION}
+
+Answer YES only if the problem clearly matches the "Use it when" condition and does not match the "Do not use it when" condition. Otherwise answer NO.
+Write one short sentence of reasoning, then end with exactly one of these two lines:
+APPLICABLE: YES
+APPLICABLE: NO

@@ -1,0 +1,90 @@
+{
+  "library": "skills/library_ungated_qwen3b_final.json",
+  "n_skills": 10,
+  "target": "logical_deduction/test",
+  "k": 3,
+  "seed": 0,
+  "model": "hf:Qwen/Qwen2.5-3B-Instruct",
+  "conditions": {
+    "no_skills": {
+      "n": 150,
+      "accuracy": 0.58,
+      "transfer_gain": 0.0,
+      "repaired": 0,
+      "broken": 0,
+      "p_value": 1.0,
+      "parse_failures": 0,
+      "mean_skills_shown": 0.0,
+      "cost": {
+        "calls": 150,
+        "prompt_chars": 138290,
+        "seconds": 155.9,
+        "prompts_reused": 0
+      }
+    },
+    "all_skills": {
+      "n": 150,
+      "accuracy": 0.46,
+      "transfer_gain": -0.12,
+      "repaired": 16,
+      "broken": 34,
+      "p_value": 0.0153,
+      "parse_failures": 1,
+      "mean_skills_shown": 10.0,
+      "cost": {
+        "calls": 150,
+        "prompt_chars": 529340,
+        "seconds": 242.9,
+        "prompts_reused": 0
+      }
+    },
+    "random_skills": {
+      "n": 150,
+      "accuracy": 0.5067,
+      "transfer_gain": -0.0733,
+      "repaired": 17,
+      "broken": 28,
+      "p_value": 0.1352,
+      "parse_failures": 0,
+      "mean_skills_shown": 3.0,
+      "cost": {
+        "calls": 150,
+        "prompt_chars": 257031,
+        "seconds": 232.9,
+        "prompts_reused": 0
+      }
+    },
+    "similarity": {
+      "n": 150,
+      "accuracy": 0.5667,
+      "transfer_gain": -0.0133,
+      "repaired": 21,
+      "broken": 23,
+      "p_value": 0.8804,
+      "parse_failures": 1,
+      "mean_skills_shown": 3.0,
+      "cost": {
+        "calls": 150,
+        "prompt_chars": 239633,
+        "seconds": 236.9,
+        "prompts_reused": 0
+      }
+    },
+    "applicability": {
+      "n": 150,
+      "accuracy": 0.58,
+      "transfer_gain": 0.0,
+      "repaired": 5,
+      "broken": 5,
+      "p_value": 1.0,
+      "parse_failures": 0,
+      "mean_skills_shown": 0.25,
+      "cost": {
+        "calls": 1530,
+        "prompt_chars": 2193962,
+        "seconds": 310.5,
+        "prompts_reused": 120
+      }
+    }
+  }
+}

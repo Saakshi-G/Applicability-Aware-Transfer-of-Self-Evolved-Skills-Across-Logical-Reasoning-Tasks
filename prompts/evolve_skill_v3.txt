@@ -1,0 +1,68 @@
+You are a reasoning-skill analyst. A frozen language model attempted multiple-choice puzzles from this task:
+{TASK_DESCRIPTION}
+
+You are given:
+1. The CURRENT SKILL LIBRARY: a JSON list of reusable reasoning skills.
+2. FAILED ATTEMPTS: for each, the question, the model's reasoning (possibly shortened), its answer, and the gold answer.
+3. SUCCESSFUL ATTEMPTS, shown for contrast only. They show reasoning that already works. Do not break it.
+4. REJECTED EDITS from earlier rounds in this epoch, with how many answers each one repaired or broke when tested. Do not propose them again.
+
+Your job has two steps.
+STEP 1. Sort the failed attempts by ERROR TYPE. An error type is one specific way the reasoning went wrong, for example: misreading one kind of clue (such as "between", "next to", or "second from the left"), mixing up which end of the scale a word refers to (cheapest, oldest, first), putting an object in a position that was already taken, or checking the answer options carelessly. Name the types yourself from the attempts.
+STEP 2. Propose AT MOST {L} operations on the library, ONE skill per error type, so that different skills fix DIFFERENT error types. You may propose fewer, or none, if nothing is warranted.
+
+Operations:
+- ADD: a new skill. Leave "target_ids" empty.
+- EDIT: rewrite one existing skill. Put its id in "target_ids" and give the complete new skill text.
+- MERGE: replace 2-3 overlapping skills with one better skill. Put their ids in "target_ids".
+- REMOVE: delete a skill that is wrong, harmful, or redundant. Put its id in "target_ids".
+
+Rules:
+1. Address error types that appear in MULTIPLE failed attempts, not individual edge cases.
+1b. DIVERSITY: each skill must target a different error type from every skill already in the library and from every other skill you propose. Two skills with mostly the same steps are duplicates, even if worded differently. A skill that just says to list all constraints, place the objects and verify is too general and is NOT allowed; target one specific error type.
+2. A skill is a general reasoning PROCEDURE: the "description" must be 3 to 6 short numbered steps, each one a concrete action the solver performs (write down, list, place, compare, eliminate). Advice such as "verify", "check", "ensure" or "be careful" with no concrete steps is NOT a skill. It must work for any puzzle of this task.
+3. NEVER include answer options such as (A) or (B), names of objects or people from the examples, specific positions copied from an example, or any answer. Never encode a one-example exception as a rule.
+4. Every skill must say when it applies and when it does NOT apply. "applies_when" names the specific kind of clue or situation that triggers the skill. "does_not_apply_when" must name at least TWO kinds of problem where the skill would not help, and at least one of them must be a kind of problem from a completely different task family, for example arithmetic word problems, date and calendar questions, Boolean expressions, or true/false truth-teller puzzles. Never write "never" or "no such case".
+5. Only patch real gaps. Do not duplicate existing skills: a new skill must differ in its STEPS, not only in its wording. If the CURRENT SKILL LIBRARY is empty, use ADD only, because EDIT, MERGE and REMOVE need ids that exist in the library. Prefer EDIT or MERGE over ADD when the library already has 10 or more skills. The library may hold at most {CAP} skills. Propose each skill once; do not list near-copies of the same skill.
+6. Do not repeat a rejected edit.
+7. Do not change the required answer format (the final line "FINAL ANSWER: (X)"). Skills describe how to reason, not how to format the answer.
+8. Length limits: "name" up to 8 words; "description" up to 80 words; "applies_when" and "does_not_apply_when" up to 30 words each.
+
+Format example of a concrete skill, from a DIFFERENT task (arithmetic word problems). Copy its style (numbered, concrete steps, specific trigger, real boundaries), never its content:
+{"name": "Convert units before comparing", "description": "1. List every quantity with its unit. 2. Pick one common unit. 3. Convert every quantity to that unit before doing any arithmetic. 4. Compute, then re-read what the question asks for.", "applies_when": "Quantities appear in mixed units.", "does_not_apply_when": "All quantities already share one unit; ordering puzzles; calendar date questions."}
+
+=== CURRENT SKILL LIBRARY ===
+{LIBRARY}
+
+=== REJECTED EDITS (do not propose again) ===
+{REJECTED}
+
+=== FAILED ATTEMPTS ===
+{FAILURES}
+
+=== SUCCESSFUL ATTEMPTS (for contrast only) ===
+{SUCCESSES}
+
+=== END OF DATA ===
+
+Respond ONLY with one valid JSON object, no markdown fences, no other text:
+{
+  "failure_summary": [
+    {"pattern": "<one-line description of one error type>", "count": <number of failed attempts showing it>}
+  ],
+  "ops": [
+    {
+      "op": "ADD|EDIT|MERGE|REMOVE",
+      "target_ids": ["skill_001"],
+      "skill": {
+        "name": "<short name>",
+        "description": "<the general procedure>",
+        "applies_when": "<the specific kind of clue or situation that triggers it>",
+        "does_not_apply_when": "<two or more kinds of problem where it does not help, one from a different task family>"
+      },
+      "support_count": <number of failed attempts that motivated this op>,
+      "reason": "<one line>"
+    }
+  ]
+}
+For REMOVE, omit "skill". "ops" may be an empty list.

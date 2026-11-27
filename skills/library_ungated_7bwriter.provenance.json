@@ -1,0 +1,191 @@
+{
+  "report": {
+    "candidates_found": 135,
+    "distinct_clusters": 19,
+    "skills_kept": 19,
+    "gated_kept": 0,
+    "refused": []
+  },
+  "skills": [
+    {
+      "skill_id": "skill_001",
+      "name": "Relative Positioning",
+      "gated": false,
+      "n_proposals": 39,
+      "sources": [
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v3_s0.jsonl",
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v3big_s0.jsonl"
+      ]
+    },
+    {
+      "skill_id": "skill_002",
+      "name": "Interpret 'left of' and 'right of'",
+      "gated": false,
+      "n_proposals": 29,
+      "sources": [
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v3_s0.jsonl",
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v3big_s0.jsonl"
+      ]
+    },
+    {
+      "skill_id": "skill_003",
+      "name": "Analyze Relative Positions",
+      "gated": false,
+      "n_proposals": 25,
+      "sources": [
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_r7b_s0.jsonl",
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_r7b_s1.jsonl",
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v3big_s0.jsonl"
+      ]
+    },
+    {
+      "skill_id": "skill_004",
+      "name": "Resolve conflicting constraints",
+      "gated": false,
+      "n_proposals": 6,
+      "sources": [
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v3big_s0.jsonl"
+      ]
+    },
+    {
+      "skill_id": "skill_005",
+      "name": "Correctly interpret 'between' or 'next to'",
+      "gated": false,
+      "n_proposals": 6,
+      "sources": [
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v3_s0.jsonl",
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v3big_s0.jsonl"
+      ]
+    },
+    {
+      "skill_id": "skill_006",
+      "name": "Check Consistency",
+      "gated": false,
+      "n_proposals": 5,
+      "sources": [
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_r7b_s0.jsonl"
+      ]
+    },
+    {
+      "skill_id": "skill_007",
+      "name": "Verify 'Second from Left/Right'",
+      "gated": false,
+      "n_proposals": 5,
+      "sources": [
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v3_s0.jsonl",
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v3big_s0.jsonl"
+      ]
+    },
+    {
+      "skill_id": "skill_008",
+      "name": "Analyze Positional Constraints",
+      "gated": false,
+      "n_proposals": 4,
+      "sources": [
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_r7b_s0.jsonl",
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_r7b_s1.jsonl"
+      ]
+    },
+    {
+      "skill_id": "skill_009",
+      "name": "Order of Events and Constraints",
+      "gated": false,
+      "n_proposals": 4,
+      "sources": [
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v3_s0.jsonl",
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v3big_s0.jsonl"
+      ]
+    },
+    {
+      "skill_id": "skill_010",
+      "name": "Determine Second-to-Last/Third-to-Last Item",
+      "gated": false,
+      "n_proposals": 2,
+      "sources": [
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_r7b_s0.jsonl",
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_r7b_s1.jsonl"
+      ]
+    },
+    {
+      "skill_id": "skill_011",
+      "name": "Avoid placing objects in occupied positions",
+      "gated": false,
+      "n_proposals": 2,
+      "sources": [
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v3_s0.jsonl"
+      ]
+    },
+    {
+      "skill_id": "skill_012",
+      "name": "Analyze Positional Constraints",
+      "gated": false,
+      "n_proposals": 1,
+      "sources": [
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_r7b_s1.jsonl"
+      ]
+    },
+    {
+      "skill_id": "skill_013",
+      "name": "Position Relative Analysis",
+      "gated": false,
+      "n_proposals": 1,
+      "sources": [
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_r7b_s1.jsonl"
+      ]
+    },
+    {
+      "skill_id": "skill_014",
+      "name": "Position Relative Check",
+      "gated": false,
+      "n_proposals": 1,
+      "sources": [
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_r7b_s1.jsonl"
+      ]
+    },
+    {
+      "skill_id": "skill_015",
+      "name": "Position Constraint Resolution",
+      "gated": false,
+      "n_proposals": 1,
+      "sources": [
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_r7b_s1.jsonl"
+      ]
+    },
+    {
+      "skill_id": "skill_016",
+      "name": "Rightmost Object Identification",
+      "gated": false,
+      "n_proposals": 1,
+      "sources": [
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_r7b_s0.jsonl"
+      ]
+    },
+    {
+      "skill_id": "skill_017",
+      "name": "Price Comparison",
+      "gated": false,
+      "n_proposals": 1,
+      "sources": [
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_r7b_s0.jsonl"
+      ]
+    },
+    {
+      "skill_id": "skill_018",
+      "name": "Understand 'second from the left/right'",
+      "gated": false,
+      "n_proposals": 1,
+      "sources": [
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v3big_s0.jsonl"
+      ]
+    },
+    {
+      "skill_id": "skill_019",
+      "name": "Verify relative positioning",
+      "gated": false,
+      "n_proposals": 1,
+      "sources": [
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v3big_s0.jsonl"
+      ]
+    }
+  ]
+}

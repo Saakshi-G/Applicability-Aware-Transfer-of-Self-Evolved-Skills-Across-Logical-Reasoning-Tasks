@@ -1,0 +1,112 @@
+[
+  {
+    "skill_id": "skill_001",
+    "source_task": "logical_deduction",
+    "name": "Analyze Positional Constraints",
+    "description": "1. Identify all positional constraints. 2. Place objects according to constraints. 3. Ensure all constraints are satisfied.",
+    "applies_when": "When objects are arranged in a fixed order and constraints specify relative positions.",
+    "does_not_apply_when": "When constraints are ambiguous or contradictory.",
+    "support_count": 577,
+    "created_round": 0,
+    "last_edited_round": 0
+  },
+  {
+    "skill_id": "skill_002",
+    "source_task": "logical_deduction",
+    "name": "Multi-Constraint Positioning",
+    "description": "1. List all given positional constraints. 2. Identify all objects and their potential positions. 3. Use a systematic approach to place objects based on constraints, ensuring consistency. 4. Verify the arrangement against all constraints. 5. Ensure the final answer aligns with the constraints.",
+    "applies_when": "When multiple positional constraints are given and the order needs to be determined.",
+    "does_not_apply_when": "When the order is already clear from the context or the constraints are contradictory.",
+    "support_count": 106,
+    "created_round": 0,
+    "last_edited_round": 0
+  },
+  {
+    "skill_id": "skill_003",
+    "source_task": "logical_deduction",
+    "name": "Comprehensive Positional Analysis and Simultaneous Position Verification",
+    "description": "1. List all positional constraints. 2. Identify all objects and their potential positions. 3. Place objects based on constraints, ensuring consistency. 4. Verify the arrangement against all constraints simultaneously. 5. List all possible initial arrangements based on given constraints. 6. Eliminate invalid arrangements by checking against all constraints. 7. Select the most consistent arrangement.",
+    "applies_when": "When multiple positional constraints are given and the order needs to be determined.",
+    "does_not_apply_when": "When the order is already clear from the context or the constraints are contradictory.",
+    "support_count": 72,
+    "created_round": 0,
+    "last_edited_round": 0
+  },
+  {
+    "skill_id": "skill_004",
+    "source_task": "logical_deduction",
+    "name": "Resolve Ambiguous Constraints",
+    "description": "1. Identify all positional constraints. 2. Verify each constraint individually. 3. Resolve conflicts by ensuring all constraints are mutually exclusive or consistent.",
+    "applies_when": "When multiple constraints overlap or contradict each other.",
+    "does_not_apply_when": "When constraints are clear and unambiguous.",
+    "support_count": 25,
+    "created_round": 0,
+    "last_edited_round": 0
+  },
+  {
+    "skill_id": "skill_005",
+    "source_task": "logical_deduction",
+    "name": "Consistent Constraint Resolution",
+    "description": "1. List all positional constraints. 2. Identify the most restrictive constraint. 3. Apply this constraint first, resolving ambiguities accordingly. 4. Re-evaluate remaining constraints with the new information.",
+    "applies_when": "When multiple positional constraints are given and they create ambiguity.",
+    "does_not_apply_when": "When constraints are clear and unambiguous.",
+    "support_count": 10,
+    "created_round": 0,
+    "last_edited_round": 0
+  },
+  {
+    "skill_id": "skill_006",
+    "source_task": "logical_deduction",
+    "name": "Assign Initial Positions",
+    "description": "1. Identify the first or last known position of an object. 2. Use this to assign relative positions to other objects based on given constraints. 3. Ensure all objects are placed correctly.",
+    "applies_when": "When objects are described in a fixed order and some initial positions are known.",
+    "does_not_apply_when": "When all positions are explicitly given or when the order is ambiguous.",
+    "support_count": 9,
+    "created_round": 0,
+    "last_edited_round": 0
+  },
+  {
+    "skill_id": "skill_007",
+    "source_task": "logical_deduction",
+    "name": "Resolve Value and Positional Confusions",
+    "description": "1. Identify and distinguish between positional and value constraints. 2. Verify the consistency of ordinal relationships like 'second' and 'third'. 3. Ensure that ordinal constraints do not contradict positional constraints.",
+    "applies_when": "When the task involves both positional and value constraints that could lead to confusion.",
+    "does_not_apply_when": "When the task clearly separates positional and value constraints without ambiguity.",
+    "support_count": 8,
+    "created_round": 0,
+    "last_edited_round": 0
+  },
+  {
+    "skill_id": "skill_008",
+    "source_task": "logical_deduction",
+    "name": "Resolve Multiple Valid Arrangements",
+    "description": "1. List all possible initial arrangements based on given constraints. 2. Eliminate invalid arrangements by checking against all constraints. 3. Select the most consistent arrangement.",
+    "applies_when": "Multiple valid arrangements are derived from positional constraints.",
+    "does_not_apply_when": "Constraints are clear and lead to a single definitive arrangement.",
+    "support_count": 8,
+    "created_round": 0,
+    "last_edited_round": 0
+  },
+  {
+    "skill_id": "skill_009",
+    "source_task": "logical_deduction",
+    "name": "Consider All Constraints",
+    "description": "1. List all given positional constraints. 2. Analyze each constraint to determine the minimum and maximum possible positions for each object. 3. Eliminate impossible positions based on other constraints.",
+    "applies_when": "When objects are arranged in a fixed order with multiple positional constraints.",
+    "does_not_apply_when": "When all constraints are already accounted for or when the order is straightforward.",
+    "support_count": 8,
+    "created_round": 0,
+    "last_edited_round": 0
+  },
+  {
+    "skill_id": "skill_010",
+    "source_task": "logical_deduction",
+    "name": "Resolve Value and Positional Confusions",
+    "description": "1. Analyze whether constraints specify values or positions. 2. If ambiguous, prioritize positional constraints over value constraints. 3. Ensure all constraints are clear and unambiguous.",
+    "applies_when": "When constraints mix value and positional information, leading to confusion.",
+    "does_not_apply_when": "When constraints are clearly value-based or positional-based.",
+    "support_count": 6,
+    "created_round": 0,
+    "last_edited_round": 0
+  }
+]

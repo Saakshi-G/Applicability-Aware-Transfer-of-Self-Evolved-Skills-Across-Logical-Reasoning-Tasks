@@ -36,6 +36,7 @@ temperature 0 for every call so that validation scores are repeatable.
 """
 
 import json
+import os
 import random
 import re
 import threading
@@ -49,7 +50,9 @@ from src.skill_library import SkillLibrary, lexical_similarity, skill_text
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-REFLECT_PROMPT_PATH = PROJECT_ROOT / "prompts" / "evolve_skill.txt"
+# Set the REFLECT_PROMPT environment variable to try another reflector prompt file
+# (path relative to the project root, e.g. prompts/evolve_skill_v2.txt).
+REFLECT_PROMPT_PATH = PROJECT_ROOT / os.environ.get("REFLECT_PROMPT", "prompts/evolve_skill.txt")
 MERGE_PROMPT_PATH = PROJECT_ROOT / "prompts" / "merge_skills.txt"
 
 TASK_DESCRIPTION = (
@@ -93,10 +96,21 @@ class CountingLLM:
         self.calls = 0
         self._lock = threading.Lock()
 
+        # Only expose .batch when the wrapped model has one (the Hugging Face
+        # backend does). evaluate() uses it to answer many questions per GPU pass.
+        if hasattr(llm, "batch"):
+            self.batch = self._batch
+
     def __call__(self, prompt):
         with self._lock:
             self.calls += 1
         return self._llm(prompt)
+
+    def _batch(self, prompts):
+        prompts = list(prompts)
+        with self._lock:
+            self.calls += len(prompts)
+        return self._llm.batch(prompts)
 
 
 def fill_template(template, values):
@@ -156,12 +170,8 @@ def _shorten(text, limit):
 # --------------------------------------------------------------------- solving
 
 
-def _solve_example(llm, example, skills=None):
-    """
-    Build the prompt (same template for every condition), ask the model,
-    parse the answer, compare with gold.
-    """
-    raw = llm(build_prompt(example["input"], skills))
+def _result_from_raw(example, raw):
+    """Parse a raw model reply and compare it with gold."""
     prediction = extract_answer(raw)
 
     return {
@@ -175,8 +185,25 @@ def _solve_example(llm, example, skills=None):
     }
 
 
+def _solve_example(llm, example, skills=None):
+    """
+    Build the prompt (same template for every condition), ask the model,
+    parse the answer, compare with gold.
+    """
+    return _result_from_raw(example, llm(build_prompt(example["input"], skills)))
+
+
 def evaluate(llm, examples, skills=None, max_workers=1):
-    """Solve every example; results keep the order of `examples`."""
+    """Solve every example; results keep the order of `examples`.
+
+    If the model has a .batch method (Hugging Face backend), all prompts go to
+    it at once, which is several times faster than one question per call.
+    """
+    batch = getattr(llm, "batch", None)
+
+    if batch is not None:
+        prompts = [build_prompt(e["input"], skills) for e in examples]
+        return [_result_from_raw(e, raw) for e, raw in zip(examples, batch(prompts))]
 
     def one(example):
         return _solve_example(llm, example, skills)
@@ -438,6 +465,72 @@ def reflect_and_curate(llm, library, failures, successes, op_budget, config,
     return sorted(flat, key=support, reverse=True)
 
 
+def repair_ops(ops, library, record=None):
+    """
+    Fix ops whose target ids do not exist in the library.
+
+    A small model often "merges" proposals that are not in the library yet and
+    writes made-up ids ("PROPOSAL_1", "skill_001"). The skill text is usually
+    fine; only the bookkeeping is wrong. So:
+      - EDIT/MERGE with no valid target id  -> ADD (empty target_ids)
+      - EDIT/MERGE with some valid ids      -> keep only the valid ids
+                                               (1 valid -> EDIT, 2-3 -> MERGE)
+      - REMOVE keeps only valid ids (left untouched if none are valid, so
+        the library refuses it)
+    Every repair is written to record["op_repairs"] for the log.
+    """
+    repaired, notes = [], []
+
+    for op in ops or []:
+        if not isinstance(op, dict):
+            repaired.append(op)
+            continue
+
+        kind = str(op.get("op", "")).upper()
+        targets = op.get("target_ids") or []
+
+        if kind not in ("EDIT", "MERGE", "REMOVE") or not isinstance(targets, list):
+            repaired.append(op)
+            continue
+
+        targets = [str(t) for t in targets]
+        valid = [t for t in targets if library.get(t) is not None]
+
+        if valid == targets and (targets or kind == "REMOVE"):
+            repaired.append(op)
+            continue
+
+        new = dict(op)
+
+        if kind == "REMOVE":
+            if valid:
+                new["target_ids"] = valid
+                notes.append(f"REMOVE {targets} -> REMOVE {valid}")
+            repaired.append(new)
+            continue
+
+        if not isinstance(op.get("skill"), dict):
+            repaired.append(op)
+            continue
+
+        if not valid:
+            new["op"], new["target_ids"] = "ADD", []
+            notes.append(f"{kind} {targets} -> ADD")
+        elif len(valid) == 1:
+            new["op"], new["target_ids"] = "EDIT", valid
+            notes.append(f"{kind} {targets} -> EDIT {valid}")
+        else:
+            new["op"], new["target_ids"] = "MERGE", valid[:3]
+            notes.append(f"{kind} {targets} -> MERGE {valid[:3]}")
+
+        repaired.append(new)
+
+    if record is not None and notes:
+        record["op_repairs"] = notes
+
+    return repaired
+
+
 # ------------------------------------------------------------------- main loop
 
 
@@ -452,6 +545,7 @@ def evolve_skills(
     leakage_filter=None,
     similarity_fn=lexical_similarity,
     verbose=True,
+    reflector_llm=None,
 ):
     """
     Run the evolution loop. Returns a dict:
@@ -460,8 +554,14 @@ def evolve_skills(
                        validation improvement every time)
       history          one record per round (also written to `log_path`)
       validation_start / validation_final   validation accuracy
-      llm_calls        total model calls
+      llm_calls        total solver-model calls
+      reflector_calls  calls made to `reflector_llm` (0 when it is not used)
       stopped          why the loop ended
+
+    `llm` solves the questions (rollouts and the validation gate). By default
+    it also writes the skills (reflector + curator). Pass `reflector_llm` to use
+    a different, usually stronger, model for writing skills only; the solver
+    that the skills are judged on stays `llm`.
 
     Examples are dicts with "id", "input", "target" (see dataset.load_split).
     The evolution set may be used for reflection; the validation set only
@@ -469,6 +569,7 @@ def evolve_skills(
     """
     cfg = config or EvolutionConfig()
     llm = CountingLLM(llm)
+    writer = CountingLLM(reflector_llm) if reflector_llm is not None else llm
 
     lib = library.copy() if library is not None else SkillLibrary(
         source_task=cfg.source_task,
@@ -538,9 +639,10 @@ def evolve_skills(
                     reason = "no reasoning failures in this batch"
                 else:
                     ops = reflect_and_curate(
-                        llm, lib, failures, successes, op_budget, cfg,
+                        writer, lib, failures, successes, op_budget, cfg,
                         rejected_buffer, rng, similarity_fn, record,
                     )
+                    ops = repair_ops(ops, lib, record)
                     candidate, applied, dropped = lib.apply_ops(
                         ops, round_idx, op_budget, leak.check
                     )
@@ -629,5 +731,6 @@ def evolve_skills(
         "validation_start": val_start,
         "validation_final": accuracy(incumbent_val),
         "llm_calls": llm.calls,
+        "reflector_calls": writer.calls if writer is not llm else 0,
         "stopped": stopped,
     }

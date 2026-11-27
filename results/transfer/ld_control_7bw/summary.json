@@ -1,0 +1,91 @@
+{
+  "library": "skills/library_ungated_7bwriter.json",
+  "n_skills": 19,
+  "target": "logical_deduction/test",
+  "k": 3,
+  "seed": 0,
+  "model": "hf:Qwen/Qwen2.5-3B-Instruct",
+  "retriever": "tfidf",
+  "conditions": {
+    "no_skills": {
+      "n": 150,
+      "accuracy": 0.58,
+      "transfer_gain": 0.0,
+      "repaired": 0,
+      "broken": 0,
+      "p_value": 1.0,
+      "parse_failures": 0,
+      "mean_skills_shown": 0.0,
+      "cost": {
+        "calls": 150,
+        "prompt_chars": 138290,
+        "seconds": 162.4,
+        "prompts_reused": 0
+      }
+    },
+    "all_skills": {
+      "n": 150,
+      "accuracy": 0.46,
+      "transfer_gain": -0.12,
+      "repaired": 19,
+      "broken": 37,
+      "p_value": 0.0222,
+      "parse_failures": 0,
+      "mean_skills_shown": 19.0,
+      "cost": {
+        "calls": 150,
+        "prompt_chars": 561890,
+        "seconds": 246.5,
+        "prompts_reused": 0
+      }
+    },
+    "random_skills": {
+      "n": 150,
+      "accuracy": 0.5067,
+      "transfer_gain": -0.0733,
+      "repaired": 22,
+      "broken": 33,
+      "p_value": 0.177,
+      "parse_failures": 0,
+      "mean_skills_shown": 3.0,
+      "cost": {
+        "calls": 150,
+        "prompt_chars": 208272,
+        "seconds": 182.7,
+        "prompts_reused": 0
+      }
+    },
+    "similarity": {
+      "n": 150,
+      "accuracy": 0.5133,
+      "transfer_gain": -0.0667,
+      "repaired": 23,
+      "broken": 33,
+      "p_value": 0.2288,
+      "parse_failures": 0,
+      "mean_skills_shown": 3.0,
+      "cost": {
+        "calls": 150,
+        "prompt_chars": 199816,
+        "seconds": 189.6,
+        "prompts_reused": 0
+      }
+    },
+    "applicability": {
+      "n": 150,
+      "accuracy": 0.58,
+      "transfer_gain": 0.0,
+      "repaired": 2,
+      "broken": 2,
+      "p_value": 1.0,
+      "parse_failures": 0,
+      "mean_skills_shown": 0.13,
+      "cost": {
+        "calls": 2869,
+        "prompt_chars": 3785255,
+        "seconds": 571.5,
+        "prompts_reused": 131
+      }
+    }
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "report": {
+    "candidates_found": 88,
+    "distinct_clusters": 11,
+    "skills_kept": 10,
+    "gated_kept": 1,
+    "refused": [
+      {
+        "name": "Analyze Positions Explicitly & Deduce Relative Positions & Account for all Positional Constraints",
+        "reason": "field 'name' too long (13 words, soft limit 8)"
+      }
+    ]
+  },
+  "skills": [
+    {
+      "skill_id": "skill_001",
+      "name": "Analyze Positional Constraints",
+      "gated": true,
+      "n_proposals": 56,
+      "sources": [
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v2.jsonl",
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v3.jsonl",
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v4s1.jsonl",
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v4s2.jsonl",
+        "skills/library_Qwen_Qwen2.5-3B-Instruct_v3.json",
+        "skills/library_Qwen_Qwen2.5-3B-Instruct_v4s1.json"
+      ]
+    },
+    {
+      "skill_id": "skill_002",
+      "name": "Multi-Constraint Positioning",
+      "gated": false,
+      "n_proposals": 11,
+      "sources": [
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v2.jsonl",
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v3.jsonl",
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v4s1.jsonl",
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v4s2.jsonl"
+      ]
+    },
+    {
+      "skill_id": "skill_003",
+      "name": "Comprehensive Positional Analysis and Simultaneous Position Verification",
+      "gated": false,
+      "n_proposals": 7,
+      "sources": [
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v3.jsonl",
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v4s1.jsonl",
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v4s2.jsonl"
+      ]
+    },
+    {
+      "skill_id": "skill_004",
+      "name": "Resolve Ambiguous Constraints",
+      "gated": false,
+      "n_proposals": 4,
+      "sources": [
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v3.jsonl",
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v4s2.jsonl"
+      ]
+    },
+    {
+      "skill_id": "skill_005",
+      "name": "Consistent Constraint Resolution",
+      "gated": false,
+      "n_proposals": 1,
+      "sources": [
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v4s1.jsonl"
+      ]
+    },
+    {
+      "skill_id": "skill_006",
+      "name": "Assign Initial Positions",
+      "gated": false,
+      "n_proposals": 1,
+      "sources": [
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v4s2.jsonl"
+      ]
+    },
+    {
+      "skill_id": "skill_007",
+      "name": "Resolve Value and Positional Confusions",
+      "gated": false,
+      "n_proposals": 1,
+      "sources": [
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v3.jsonl"
+      ]
+    },
+    {
+      "skill_id": "skill_008",
+      "name": "Resolve Multiple Valid Arrangements",
+      "gated": false,
+      "n_proposals": 1,
+      "sources": [
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v4s1.jsonl"
+      ]
+    },
+    {
+      "skill_id": "skill_009",
+      "name": "Consider All Constraints",
+      "gated": false,
+      "n_proposals": 1,
+      "sources": [
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v4s2.jsonl"
+      ]
+    },
+    {
+      "skill_id": "skill_010",
+      "name": "Resolve Value and Positional Confusions",
+      "gated": false,
+      "n_proposals": 1,
+      "sources": [
+        "skills/evolution_log_Qwen_Qwen2.5-3B-Instruct_v3.jsonl"
+      ]
+    }
+  ]
+}

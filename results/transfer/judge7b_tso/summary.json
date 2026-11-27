@@ -1,0 +1,63 @@
+{
+  "library": "skills/library_ungated_7bwriter.json",
+  "n_skills": 19,
+  "target": "tracking_shuffled_objects/test",
+  "k": 3,
+  "seed": 0,
+  "model": "hf:Qwen/Qwen2.5-3B-Instruct",
+  "retriever": "tfidf",
+  "judge_model": "hf:Qwen/Qwen2.5-7B-Instruct",
+  "conditions": {
+    "no_skills": {
+      "n": 150,
+      "accuracy": 0.4,
+      "transfer_gain": 0.0,
+      "repaired": 0,
+      "broken": 0,
+      "p_value": 1.0,
+      "parse_failures": 0,
+      "mean_skills_shown": 0.0,
+      "cost": {
+        "calls": 150,
+        "prompt_chars": 147005,
+        "seconds": 103.9,
+        "prompts_reused": 0,
+        "judge_calls": 0
+      }
+    },
+    "similarity": {
+      "n": 150,
+      "accuracy": 0.44,
+      "transfer_gain": 0.04,
+      "repaired": 27,
+      "broken": 21,
+      "p_value": 0.4709,
+      "parse_failures": 0,
+      "mean_skills_shown": 3.0,
+      "cost": {
+        "calls": 150,
+        "prompt_chars": 224746,
+        "seconds": 125.9,
+        "prompts_reused": 0,
+        "judge_calls": 0
+      }
+    },
+    "applicability": {
+      "n": 150,
+      "accuracy": 0.3533,
+      "transfer_gain": -0.0467,
+      "repaired": 25,
+      "broken": 32,
+      "p_value": 0.427,
+      "parse_failures": 0,
+      "mean_skills_shown": 3.0,
+      "cost": {
+        "calls": 148,
+        "prompt_chars": 218701,
+        "seconds": 472.1,
+        "prompts_reused": 2,
+        "judge_calls": 2850
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+[
+  {
+    "skill_id": "skill_001",
+    "source_task": "logical_deduction",
+    "name": "Analyze Positional Constraints",
+    "description": "1. Identify all positional constraints. 2. Place objects according to constraints. 3. Ensure all constraints are satisfied.",
+    "applies_when": "When objects are arranged in a fixed order and constraints specify relative positions.",
+    "does_not_apply_when": "When constraints are ambiguous or contradictory.",
+    "support_count": 15,
+    "created_round": 0,
+    "last_edited_round": 0
+  },
+  {
+    "skill_id": "skill_002",
+    "source_task": "logical_deduction",
+    "name": "Comprehensive Positional Analysis",
+    "description": "1. List all given positional constraints. 2. Identify all objects and their potential positions. 3. Place objects based on constraints, ensuring consistency. 4. Verify the arrangement against all constraints.",
+    "applies_when": "When multiple positional constraints are given and the order needs to be determined.",
+    "does_not_apply_when": "When the order is already clear from the context or the constraints are contradictory.",
+    "support_count": 9,
+    "created_round": 0,
+    "last_edited_round": 0
+  }
+]
